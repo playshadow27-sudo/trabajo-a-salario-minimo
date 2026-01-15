@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trabajo a Salario Mínimo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #020202;
+      color: #e0e0e0;
+      background-image:
+        radial-gradient(circle at top, #0c0c0c 0%, #020202 65%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 1px, transparent 1px, transparent 3px);
+      animation: flicker 6s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { filter: brightness(1); }
+      10% { filter: brightness(0.95); }
+      11% { filter: brightness(0.6); }
+      12% { filter: brightness(1); }
+      70% { filter: brightness(0.9); }
+      71% { filter: brightness(0.5); }
+      72% { filter: brightness(1); }
+    }
+
+    header {
+      background: #050505;
+      padding: 70px 20px;
+      text-align: center;
+      border-bottom: 2px solid #2b0000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent, rgba(120,0,0,0.15), transparent);
+      animation: scan 4s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      letter-spacing: 4px;
+      color: #b00000;
+      text-shadow: 0 0 12px #400000, 0 0 40px rgba(176,0,0,0.3);
+      animation: glitch 3.5s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 #400000, -2px 0 #120000; }
+      20% { text-shadow: -2px 0 #400000, 2px 0 #120000; }
+      40% { text-shadow: 3px 0 #400000, -3px 0 #120000; }
+      60% { text-shadow: -1px 0 #400000, 1px 0 #120000; }
+      100% { text-shadow: 2px 0 #400000, -2px 0 #120000; }
+    }
+
+    header p {
+      margin-top: 18px;
+      font-style: italic;
+      color: #8f8f8f;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      border-left: 4px solid #8b0000;
+      padding-left: 12px;
+      color: #c0c0c0;
+    }
+
+    .quote {
+      background: #050505;
+      border: 1px solid #400000;
+      padding: 30px;
+      margin: 40px 0;
+      font-style: italic;
+      font-size: 1.15rem;
+      box-shadow: 0 0 30px rgba(176, 0, 0, 0.35);
+      position: relative;
+    }
+
+    .quote::before {
+      content: "ARCHIVO CONFIDENCIAL";
+      position: absolute;
+      top: -12px;
+      left: 12px;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: #600000;
+      background: #050505;
+      padding: 2px 6px;
+    }
+
+    .warning {
+      color: #b00000;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid #300000;
+      color: #666;
+      font-size: 0.85rem;
+    }
+
+    .hidden {
+      color: #020202;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>TRABAJO A SALARIO MÍNIMO</h1>
+    <p>Un diario nocturno. Un turno que nunca debió existir.</p>
+  </header>
+
+  <section>
+    <h2>📖 Sobre el libro</h2>
+    <p>
+      <strong>Trabajo a Salario Mínimo</strong> es una historia de terror psicológico escrita en formato de diario.
+      Todo comienza con un empleo nocturno mal pagado, un contrato poco claro y un restaurante que asegura haber sido renovado.
+    </p>
+    <p>
+      No es una historia sobre héroes.
+      Es una historia sobre personas normales que aceptaron el turno equivocado.
+    </p>
+    <p class="warning">
+      Nota: la cronología de esta historia <strong>no sigue ni pretende seguir</strong> la línea oficial.
+      Es una interpretación propia.
+    </p>
+    <p>
+      <strong>Fecha prevista:</strong> <span class="warning">Halloween 2026</span>
+    </p>
+  </section>
+
+  
+
+  <section>
+    <h2>📝 Fragmento</h2>
+    <div class="quote">
+      “Acepté este trabajo por dinero.
+      Y ahora no puedo renunciar.”
+      <div class="hidden">NO MIRES ATRÁS</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>⚠️ Advertencia</h2>
+    <p class="warning">
+      Este libro contiene desapariciones, terror psicológico y turnos nocturnos mal pagados.
+      Leer bajo su propio riesgo.
+    </p>
+  </section>
+
+  <footer>
+    <p>© 2026 · Trabajo a Salario Mínimo</p>
+    <p class="warning">Fredbear’s Family Diner se reserva el derecho de terminar el contrato.</p>
+    <p>Creado por <strong>Aidan</strong></p>
+  </footer>
+
+</body>
+</html>
