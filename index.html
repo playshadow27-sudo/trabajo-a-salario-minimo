@@ -1,191 +1,177 @@
-/* =====================================================
-   TRABAJO A SALARIO MINIMO
-   SINGLE SCRIPT — BUILD DEFINITIVO
-   Creado por Aidan
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trabajo a Salario Mínimo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #020202;
+      color: #e0e0e0;
+      background-image:
+        radial-gradient(circle at top, #0c0c0c 0%, #020202 65%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 1px, transparent 1px, transparent 3px);
+      animation: flicker 6s infinite;
+    }
 
-   AVISO:
-   Esta obra NO sigue la cronología oficial de FNaF.
-   Es una interpretación independiente.
-   ===================================================== */
+    @keyframes flicker {
+      0%, 100% { filter: brightness(1); }
+      10% { filter: brightness(0.95); }
+      11% { filter: brightness(0.6); }
+      12% { filter: brightness(1); }
+      70% { filter: brightness(0.9); }
+      71% { filter: brightness(0.5); }
+      72% { filter: brightness(1); }
+    }
 
-(function(){
-'use strict';
+    header {
+      background: #050505;
+      padding: 70px 20px;
+      text-align: center;
+      border-bottom: 2px solid #2b0000;
+      position: relative;
+      overflow: hidden;
+    }
 
-// =====================================================
-// NAMESPACE GLOBAL
-// =====================================================
-const TSM = {};
-window.TSM = TSM;
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent, rgba(120,0,0,0.15), transparent);
+      animation: scan 4s infinite;
+      pointer-events: none;
+    }
 
-// =====================================================
-// CONFIGURACION GENERAL
-// =====================================================
-TSM.config = {
-  startHour: 0,
-  endHour: 6,
-  tickRate: 1000,          // 1 minuto de juego por segundo
-  powerDrainBase: 0.25,
-  powerDrainDoors: 0.15,
-  glitchChance: 0.07,
-  messageFade: 1200
-};
+    @keyframes scan {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
 
-// =====================================================
-// ESTADO GLOBAL
-// =====================================================
-TSM.state = {
-  hour: 0,
-  minute: 0,
-  power: 100,
-  alive: true,
-  initialized: false,
-  doors: { left:false, right:false },
-  animatronics: {
-    rabbit: { room: 0, active: true },
-    bear:   { room: 0, active: false }
-  }
-};
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      letter-spacing: 4px;
+      color: #b00000;
+      text-shadow: 0 0 12px #400000, 0 0 40px rgba(176,0,0,0.3);
+      animation: glitch 3.5s infinite;
+    }
 
-// =====================================================
-// SISTEMA DE EVENTOS
-// =====================================================
-TSM.events = {
-  listeners: {},
-  on(evt, cb){ (this.listeners[evt] ??= []).push(cb); },
-  emit(evt, data){ (this.listeners[evt]||[]).forEach(f=>f(data)); }
-};
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 #400000, -2px 0 #120000; }
+      20% { text-shadow: -2px 0 #400000, 2px 0 #120000; }
+      40% { text-shadow: 3px 0 #400000, -3px 0 #120000; }
+      60% { text-shadow: -1px 0 #400000, 1px 0 #120000; }
+      100% { text-shadow: 2px 0 #400000, -2px 0 #120000; }
+    }
 
-// =====================================================
-// UTILIDADES
-// =====================================================
-TSM.utils = {
-  clamp(v,min,max){ return Math.min(Math.max(v,min),max); },
-  time(){ return `${TSM.state.hour}:${String(TSM.state.minute).padStart(2,'0')}`; },
-  rand(a,b){ return Math.random()*(b-a)+a; }
-};
+    header p {
+      margin-top: 18px;
+      font-style: italic;
+      color: #8f8f8f;
+    }
 
-// =====================================================
-// LOG Y MENSAJES
-// =====================================================
-TSM.ui = {
-  log(type,msg){ console.log(`[${TSM.utils.time()}] ${type}: ${msg}`); },
-  message(text){
-    const el = document.createElement('div');
-    el.textContent = text;
-    el.style.cssText = `
-      position:fixed;bottom:15%;left:50%;transform:translateX(-50%);
-      color:#8b0000;font-family:monospace;letter-spacing:3px;
-      opacity:0;transition:opacity 1s;z-index:9999;`;
-    document.body.appendChild(el);
-    requestAnimationFrame(()=> el.style.opacity=1);
-    setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>el.remove(),TSM.config.messageFade); },3000);
-  }
-};
+    section {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
 
-// =====================================================
-// LOOP PRINCIPAL
-// =====================================================
-TSM.loop = {
-  id:null,
-  start(){ if(this.id) return; this.id=setInterval(()=>TSM.events.emit('tick'),TSM.config.tickRate); },
-  stop(){ clearInterval(this.id); this.id=null; }
-};
+    h2 {
+      border-left: 4px solid #8b0000;
+      padding-left: 12px;
+      color: #c0c0c0;
+    }
 
-// =====================================================
-// TIEMPO
-// =====================================================
-TSM.events.on('tick',()=>{
-  if(!TSM.state.alive) return;
+    .quote {
+      background: #050505;
+      border: 1px solid #400000;
+      padding: 30px;
+      margin: 40px 0;
+      font-style: italic;
+      font-size: 1.15rem;
+      box-shadow: 0 0 30px rgba(176, 0, 0, 0.35);
+      position: relative;
+    }
 
-  TSM.state.minute++;
-  if(TSM.state.minute>=60){
-    TSM.state.minute=0;
-    TSM.state.hour++;
-    TSM.ui.log('HORA',TSM.utils.time());
-  }
+    .quote::before {
+      content: "ARCHIVO CONFIDENCIAL";
+      position: absolute;
+      top: -12px;
+      left: 12px;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: #600000;
+      background: #050505;
+      padding: 2px 6px;
+    }
 
-  if(TSM.state.hour>=TSM.config.endHour){
-    TSM.control.finishShift();
-  }
-});
+    .warning {
+      color: #b00000;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
 
-// =====================================================
-// ENERGIA
-// =====================================================
-setInterval(()=>{
-  if(!TSM.state.alive) return;
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid #300000;
+      color: #666;
+      font-size: 0.85rem;
+    }
 
-  let drain = TSM.config.powerDrainBase;
-  if(TSM.state.doors.left) drain += TSM.config.powerDrainDoors;
-  if(TSM.state.doors.right) drain += TSM.config.powerDrainDoors;
+    .hidden {
+      color: #020202;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
 
-  TSM.state.power = TSM.utils.clamp(TSM.state.power - drain, 0, 100);
+  <header>
+    <h1>TRABAJO A SALARIO MÍNIMO</h1>
+    <p>Un diario nocturno. Un turno que nunca debió existir.</p>
+  </header>
 
-  if(TSM.state.power<=0){
-    TSM.control.kill('SIN ENERGIA');
-  }
-},1500);
+  <section>
+    <h2>📖 Sobre el libro</h2>
+    <p>
+      <strong>Trabajo a Salario Mínimo</strong> es una historia de terror psicológico escrita en formato de diario.
+      Todo comienza con un empleo nocturno mal pagado, un contrato poco claro y un restaurante que asegura haber sido renovado.
+    </p>
+    <p>
+      No es una historia sobre héroes.
+      Es una historia sobre personas normales que aceptaron el turno equivocado.
+    </p>
+    <p>
+      <strong>Fecha prevista:</strong> <span class="warning">Halloween 2026</span>
+    </p>
+  </section>
 
-// =====================================================
-// IA SIMPLIFICADA
-// =====================================================
-setInterval(()=>{
-  if(!TSM.state.alive) return;
+  
 
-  const rabbit = TSM.state.animatronics.rabbit;
-  if(rabbit.active && Math.random()<0.3){ rabbit.room++; }
+  <section>
+    <h2>📝 Fragmento</h2>
+    <div class="quote">
+      “Acepté este trabajo por dinero.
+      Y ahora no puedo renunciar.”
+      <div class="hidden">NO MIRES ATRÁS</div>
+    </div>
+  </section>
 
-  if(rabbit.room>3 && !TSM.state.doors.left){
-    TSM.control.kill('EL CONEJO ENTRO');
-  }
-},4000);
+  <section>
+    <h2>⚠️ Advertencia</h2>
+    <p class="warning">
+      Este libro contiene desapariciones, terror psicológico y turnos nocturnos mal pagados.
+      Leer bajo su propio riesgo.
+    </p>
+  </section>
 
-// =====================================================
-// EVENTOS NARRATIVOS
-// =====================================================
-TSM.events.on('tick',()=>{
-  const h = TSM.state.hour;
-  if(h===1 && TSM.state.minute===10) TSM.ui.message('Movimiento detectado');
-  if(h===3 && TSM.state.minute===0)  TSM.ui.message('No debiste aceptar este trabajo');
-  if(h===5 && TSM.state.minute===30) TSM.ui.message('Ya es demasiado tarde para renunciar');
-});
+  <footer>
+    <p>© 2026 · Trabajo a Salario Mínimo</p>
+    <p class="warning">Fredbear’s Family Diner se reserva el derecho de terminar el contrato.</p>
+  </footer>
 
-// =====================================================
-// GLITCH VISUAL
-// =====================================================
-setInterval(()=>{
-  if(Math.random()<TSM.config.glitchChance){
-    document.body.style.filter='contrast(200%) brightness(50%)';
-    setTimeout(()=>document.body.style.filter='',120);
-  }
-},2000);
-
-// =====================================================
-// CONTROL DE ESTADO
-// =====================================================
-TSM.control = {
-  kill(reason){
-    if(!TSM.state.alive) return;
-    TSM.state.alive=false;
-    TSM.loop.stop();
-    TSM.ui.message(`MUERTO: ${reason}`);
-    TSM.ui.log('FIN',reason);
-  },
-  finishShift(){
-    TSM.state.alive=false;
-    TSM.loop.stop();
-    TSM.ui.message('6:00 A.M. — SALIDA AUTORIZADA');
-  }
-};
-
-// =====================================================
-// INICIO
-// =====================================================
-document.addEventListener('DOMContentLoaded',()=>{
-  if(TSM.state.initialized) return;
-  TSM.state.initialized=true;
-  TSM.ui.log('INICIO','Fredbear’s Family Diner — Halloween 2026');
-  TSM.loop.start();
-});
-
-})();
+</body>
+</html>
