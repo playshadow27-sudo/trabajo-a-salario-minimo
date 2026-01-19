@@ -69,6 +69,60 @@
 
     <div class="date">
       LIBRO DISPONIBLE 20 DE ENERO 20:00 DE LA NOCHE HORA ESPAÑA<br>
+      <div id="release-container">
+  <button id="readBtn" disabled>LEER LIBRO</button>
+  <p id="status">No disponible</p>
+  <p id="countdown"></p>
+</div>
+
+<style>
+  #release-container{
+    text-align:center;
+    font-family:monospace;
+    color:#8b0000;
+  }
+  #readBtn{
+    background:#000;
+    color:#8b0000;
+    border:1px solid #8b0000;
+    padding:15px 30px;
+    font-size:18px;
+    letter-spacing:3px;
+    cursor:not-allowed;
+  }
+</style>
+
+<script>
+const releaseDate = new Date(
+  new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" })
+);
+releaseDate.setFullYear(2026, 0, 20); // 20 enero 2026
+releaseDate.setHours(20, 0, 0, 0);   // 20:00
+
+const countdownEl = document.getElementById("countdown");
+
+setInterval(() => {
+  const now = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" })
+  );
+  const diff = releaseDate - now;
+
+  if (diff <= 0) {
+    countdownEl.textContent = "YA DISPONIBLE";
+    document.getElementById("readBtn").disabled = false;
+    document.getElementById("status").textContent = "";
+    return;
+  }
+
+  const h = Math.floor(diff / (1000 * 60 * 60));
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  countdownEl.textContent =
+    `Disponible en ${h}h ${m}m ${s}s`;
+}, 1000);
+</script>
+
     
     </div>
   </div>
